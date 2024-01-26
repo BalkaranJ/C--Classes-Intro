@@ -1,0 +1,79 @@
+public class Person
+{
+    public int PersonId { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string FavouriteColour { get; set; }
+    public int Age { get; set; }
+    public bool IsWorking { get; set; }
+
+    public void DisplayPersonInfo()
+    {
+        Console.WriteLine($"Name= {FirstName} {LastName}, personId: {PersonId}, {FirstName}'s favourite colour is {FavouriteColour}");
+    }
+
+    public void ChangeFavouriteColour()
+    {
+        FavouriteColour = "white";
+    }
+
+    public int GetAgeInTenYears()
+    {
+        return Age + 10;
+    }
+
+    public override string ToString()
+    {
+        return $"[{PersonId}, {FirstName}, {LastName}, {FavouriteColour}, {Age}, {IsWorking}]";
+    }
+}
+
+public enum RelationshipType
+{
+    Sister,
+    Brother,
+    Mother,
+    Father
+}
+
+public class Relation
+{
+    public RelationshipType RelationshipType { get; set; }
+
+    public void ShowRelationShip(Person person1, Person person2)
+    {
+        Console.WriteLine($"{person1.FirstName} is the {RelationshipType} of {person2.FirstName}");
+    }
+}
+
+public class MainClass
+{
+    public static void Main(string[] args)
+    {
+        Person ian = new Person { PersonId = 1, FirstName = "Ian", LastName = "Brooks", FavouriteColour = "Red", Age = 30, IsWorking = true };
+        Person gina = new Person { PersonId = 2, FirstName = "Gina", LastName = "James", FavouriteColour = "Green", Age = 18, IsWorking = false };
+        Person mike = new Person { PersonId = 3, FirstName = "Mike", LastName = "Briscoe", FavouriteColour = "Blue", Age = 45, IsWorking = true };
+        Person mary = new Person { PersonId = 4, FirstName = "Mary", LastName = "Beals", FavouriteColour = "Yellow", Age = 28, IsWorking = true };
+
+        gina.DisplayPersonInfo();
+        Console.WriteLine(mike.ToString());
+
+        ian.ChangeFavouriteColour();
+        ian.DisplayPersonInfo();
+
+        Console.WriteLine($"Mary's age after ten years: {mary.GetAgeInTenYears()}");
+
+        Relation sisters = new Relation { RelationshipType = RelationshipType.Sister };
+        sisters.ShowRelationShip(gina, mary);
+
+        Relation brothers = new Relation { RelationshipType = RelationshipType.Brother };
+        brothers.ShowRelationShip(ian, mike);
+
+        List<Person> people = new List<Person> { ian, gina, mike, mary };
+
+        Console.WriteLine($"Average age: {people.Average(p => p.Age)}");
+        Console.WriteLine($"Youngest: {people.Min(p => p.Age)}, Oldest: {people.Max(p => p.Age)}");
+        Console.WriteLine($"People whose first names start with M: {string.Join(", ", people.Where(p => p.FirstName.StartsWith("M")).Select(p => p.FirstName))}");
+        Console.WriteLine($"Person who likes blue: {people.First(p => p.FavouriteColour == "Blue")}");
+    }
+}
